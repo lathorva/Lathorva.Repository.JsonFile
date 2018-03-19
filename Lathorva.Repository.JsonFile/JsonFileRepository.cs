@@ -25,14 +25,17 @@ namespace Lathorva.Repository.JsonFile
 
         private void InitilizeData()
         {
-            if (!File.Exists(_jsonFilePath))
+            if (File.Exists(_jsonFilePath))
             {
 
                 var json = System.IO.File.ReadAllText(_jsonFilePath);
                 _data = JsonConvert.DeserializeObject<List<TModel>>(json);
             }
-
-            _data = new List<TModel>();
+            else
+            {
+                File.Create(_jsonFilePath);
+                _data = new List<TModel>();
+            }
         }
 
         private async Task SaveDataToJsonFileAsync()
